@@ -21,7 +21,7 @@ namespace :rubber do
     # rails env needs db to exist as some plugin accesses model or something)
     if ! defined?(RAILS_ROOT)
       if File.dirname(__FILE__) =~ /vendor\/plugins/
-        require(File.join(File.dirname(__FILE__), '../../../../config/boot'))
+        require File.expand_path('../../../../config/boot', File.dirname(__FILE__))
       else
         raise "Cannot load rails env because rubber is not being used as a rails plugin"
       end
