@@ -194,6 +194,7 @@ namespace :rubber do
     delim = "#{delim} #{ENV['RAILS_ENV']}" if ENV['RAILS_ENV']
     remote_hosts = delim + "\n"
     rubber_cfg.instance.each do |ic|
+      next unless ic.internal_ip
       hosts_data = [ic.name, ic.full_name, ic.external_host, ic.internal_host].join(' ')
       remote_hosts << ic.internal_ip << ' ' << hosts_data << "\n"
     end
