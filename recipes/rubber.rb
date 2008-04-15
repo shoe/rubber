@@ -412,9 +412,17 @@ namespace :rubber do
 
     env = rubber_cfg.environment.bind(instance_item.role_names, instance_alias)
     ec2 = EC2::Base.new(:access_key_id => env.aws_access_key, :secret_access_key => env.aws_secret_access_key)
+
     response = ec2.describe_instances(:instance_id => instance_item.instance_id)
-    item = response.reservationSet.item[0].instancesSet.item[0]
-    if item.instanceState.name == "running"
+    instance_found = !response.reservationSet.nil?
+    instance_running = instance_found && response.reservationSet.
+      item[0].instancesSet.item[0].instanceState.name == "running"
+
+    if !instance_found
+      logger.info "Cannot find #{instance_alias}; deleting from configuration"
+      rubber_cfg.instance.remove(instance_alias)
+    elsif instance_running
+      item = response.reservationSet.item[0].instancesSet.item[0]
       logger.info "\nInstance running, fetching hostname/ip data"
       instance_item.external_host = item.dnsName
       instance_item.external_ip = IPSocket.getaddress(item.dnsName)
