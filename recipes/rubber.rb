@@ -429,7 +429,7 @@ namespace :rubber do
 
       # Connect to newly created instance and grab its internal ip
       # so that we can update all aliases
-      task :_get_ip, :hosts => instance_item.full_name do
+      task :_get_ip, :hosts => instance_item.external_host do
         instance_item.internal_ip = capture("curl -s http://169.254.169.254/latest/meta-data/local-ipv4").strip
       end
       # even though instance is running, we need to give ssh a chance
