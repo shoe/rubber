@@ -281,7 +281,7 @@ namespace :rubber do
 
   desc <<-DESC
     The ubuntu has /bin/sh linking to dash instead of bash, fix this
-    You can override this task if you don't want this to happen
+    You can override this task if you do not want this to happen
   DESC
   task :link_bash do
     sudo("ln -sf /bin/bash /bin/sh")
