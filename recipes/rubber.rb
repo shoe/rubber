@@ -301,6 +301,10 @@ namespace :rubber do
     sudo "bash -c 'echo $CAPISTRANO:VAR$ > /etc/timezone'", opts
     sudo "cp /usr/share/zoneinfo/$CAPISTRANO:VAR$ /etc/localtime", opts
     # restart syslog so that times match timezone
+    restart_syslog
+  end
+
+  def restart_syslog
     sudo "/etc/init.d/sysklogd restart"
   end
 
